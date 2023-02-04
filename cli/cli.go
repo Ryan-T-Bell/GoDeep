@@ -3,6 +3,7 @@ package cli
 import (
 	"bufio"
 	"fmt"
+	"godeep/utils"
 	"os"
 	"strings"
 )
@@ -12,17 +13,33 @@ const colorNone = "\033[0m"
 
 func RunCLI() {
 	for {
-		fmt.Printf("%s Go-DEEP > %s", colorRed, colorNone)
-		reader := bufio.NewReader(os.Stdin)
-		input, err := reader.ReadString('\n')
-		if err != nil {
-			panic(err)
-		}
-		input = strings.TrimSuffix(input, "\n")
-		if input == "exit" {
-			return
-		} else {
+		printMainInputLine()
+		input := readInput()
+
+		switch input {
+		case "exit":
+			handleExit()
+		default:
 			fmt.Println(input)
 		}
+	}
+}
+
+func readInput() string {
+	reader := bufio.NewReader(os.Stdin)
+	input, err := reader.ReadString('\n')
+	utils.PanicIfError(err)
+	return strings.TrimSuffix(input, "\n")
+}
+
+func printMainInputLine() {
+	fmt.Printf("%s Go-DEEP > %s", colorRed, colorNone)
+}
+
+func handleExit() {
+	fmt.Printf("Are you sure you want to exit? (y/n)")
+	input := readInput()
+	if input == "y" || input == "yes" {
+		os.Exit(0)
 	}
 }
