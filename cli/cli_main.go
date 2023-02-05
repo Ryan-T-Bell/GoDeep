@@ -13,9 +13,16 @@ import (
 	"strings"
 )
 
+const mainHelp = `Go-DEEP Main Help
+-------------------------
+[0] e (exit): Exit Go-DEEP command line interface.
+[1] i (implants): Unsorted database of generated implants.
+[2] p (paths): Paths of triggerable implants.
+`
+
 func RunCLI() {
 	for {
-		printMainInputLine()
+		fmt.Printf("\n%s Go-DEEP > %s", utils.ColorRed, utils.ColorNone)
 		input := readInput()
 
 		switch input {
@@ -26,13 +33,14 @@ func RunCLI() {
 		case "2", "p", "paths":
 			handlePaths()
 		case "h", "help", "?":
-			handleMainHelp()
+			fmt.Printf(mainHelp)
 		default:
-			printDefaultMessage()
+			fmt.Printf("%s Invalid command. Type \"?\" \"h\" or \"help\" for instructions. \n", utils.INFO)
 		}
 	}
 }
 
+// readInput reads input from the command line.
 func readInput() string {
 	reader := bufio.NewReader(os.Stdin)
 	input, err := reader.ReadString('\n')
@@ -40,28 +48,10 @@ func readInput() string {
 	return strings.TrimSuffix(input, "\n")
 }
 
-func printMainInputLine() {
-	fmt.Printf("\n%s Go-DEEP > %s", utils.ColorRed, utils.ColorNone)
-}
-
-func printDefaultMessage() {
-	fmt.Printf("%s Invalid command. Type \"?\" \"h\" or \"help\" for instructions. \n", utils.INFO)
-}
-
 func handleExit() {
-	fmt.Printf("Are you sure you want to exit? (y/n)\n")
+	fmt.Printf("%s[?]%s Are you sure you want to exit? (y/n)\n> ", utils.ColorGreen, utils.ColorNone)
 	input := readInput()
 	if input == "y" || input == "yes" {
 		os.Exit(0)
 	}
-}
-
-func handleMainHelp() {
-	help := `Go-DEEP Main Help
--------------------------
-[0] e (exit): Exit Go-DEEP command line interface.
-[1] i (implants): Unsorted database of generated implants.
-[2] p (paths): Paths of triggerable implants.
-`
-	fmt.Print(help)
 }

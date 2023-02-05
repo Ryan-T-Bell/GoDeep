@@ -30,7 +30,7 @@ func getGoRootDir(appDir string) string {
 
 // GoCmd - Execute a go command
 func goCmd(config implantConfig, cwd string, command []string) ([]byte, error) {
-	goBinPath := filepath.Join(getGoRootDir(), "bin", "go")
+	goBinPath := filepath.Join(getGoRootDir(""), "bin", "go")
 	cmd := exec.Command(goBinPath, command...)
 	cmd.Dir = cwd
 	cmd.Env = []string{
