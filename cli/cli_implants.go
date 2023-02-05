@@ -14,8 +14,9 @@ func handleImplants() {
 		case "0", "b", "back":
 			return
 		case "1", "g", "generate":
+			startImplantGeneratorQueue()
 		case "2", "ls", "list":
-		case "h", "help":
+		case "h", "help", "?":
 			handleImplantHelp()
 		default:
 			printDefaultMessage()
