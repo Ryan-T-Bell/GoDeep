@@ -1,7 +1,14 @@
 package utils
 
-func PanicIfError(err error) {
+import (
+	"fmt"
+)
+
+/*
+Error handling functions for app.
+*/
+func PrintError(err error) {
 	if err != nil {
-		panic(err)
+		fmt.Printf("%s[!] Error: %s", ColorRed, err)
 	}
 }
