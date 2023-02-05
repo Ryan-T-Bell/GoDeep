@@ -64,6 +64,20 @@ func selectOperatingSystem() string {
 [1] w (windows): Generate Windows implant.
 [2] l (linux): Generate Linux implant.
 [3] d (darwin): Generate Darwin (Mac-OS) implant.
+[4] a (android): Generate Android implant.
+[5] i (ios): Generate iOS implant.
+[6] aix: Generate AIX implant.
+[7] dragonfly: Generate Dragonfly implant.
+[8] freebsd: Generate FreeBSD implant.
+[9] hurd: Generate Hurd implant.
+[10] illumos: Generate Illumos implant.
+[11] js: Generate JavaScript implant.
+[12] nacl: Generate Native Client implant.
+[13] netbsd: Generate NetBSD implant.
+[14] openbsd: Generate OpenBSD implant.
+[15] plan9: Generate Plan 9 implant.
+[16] solaris: Generate Solaris implant.
+[17] zos: Generate z/OS implant.
 `
 	for {
 		printImplantCLI()
