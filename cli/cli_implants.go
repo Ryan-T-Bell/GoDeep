@@ -47,9 +47,11 @@ func generateImplantCLI() {
 	os := selectOperatingSystem()
 	if os != 0 {
 		arch := selectArchitecture()
-
 		if arch != 0 {
-			implant.GenerateImplant(os, arch)
+			trigger = selectTriggerMethod()
+			if trigger != 0 {
+				implant.GenerateExecutable(os, arch, trigger)
+			}
 		}
 	}
 }
@@ -78,13 +80,13 @@ func selectOperatingSystem() int {
 		case "3", "m", "mac":
 			return 3
 		default:
-			fmt.Printf("%s Invalid input.  Select operating systme", utils.INFO)
+			fmt.Printf("%s Invalid input.  Select operating system", utils.INFO)
 		}
 	}
 }
 
 func selectArchitecture() int {
-	help := `Select Operating System:
+	help := `Select Architecture System:
 -----------------------------------------------------
 [0] b (back): Return to main thread.
 [1] amd64: AMD64 architecture.
@@ -137,7 +139,33 @@ func selectArchitecture() int {
 		case "13", "s390x":
 			return 13
 		default:
-			fmt.Printf("%s Invalid input.  Select operating systme", utils.INFO)
+			fmt.Printf("%s Invalid input.  Select architecture.", utils.INFO)
+		}
+	}
+}
+
+func selectTriggerMethod() int {
+	help := `Select Trigger Method:
+-----------------------------------------------------
+[0] b (back): Return to main thread.
+[1] s (server): Trigger via server.  Relies on running process.
+[2] w (webshell): Trigger via webshell. Relies on webserver.
+`
+	for {
+		printImplantCLI()
+		fmt.Printf("%s", help)
+
+		input := readInput()
+
+		switch input {
+		case "0", "b", "back":
+			return 0
+		case "1", "s", "server":
+			return 1
+		case "2", "w", "webshell":
+			return 2
+		default:
+			fmt.Printf("%s Invalid input.  Select trigger method.", utils.INFO)
 		}
 	}
 }

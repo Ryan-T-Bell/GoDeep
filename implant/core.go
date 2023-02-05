@@ -2,6 +2,6 @@ package implant
 
 import "fmt"
 
-func GenerateImplant(os int, arch int) {
-	fmt.Printf("%d %d", os, arch)
+func GenerateExecutable(os int, arch int, trigger int) {
+	fmt.Printf("%d %d %d", os, arch, trigger)
 }
