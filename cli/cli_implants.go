@@ -2,6 +2,7 @@ package cli
 
 import (
 	"fmt"
+	"godeep/implant"
 	"godeep/utils"
 )
 
@@ -14,7 +15,7 @@ func handleImplants() {
 		case "0", "b", "back":
 			return
 		case "1", "g", "generate":
-			startImplantGeneratorQueue()
+			implant.StartImplantGeneratorQueue()
 		case "2", "ls", "list":
 		case "h", "help", "?":
 			handleImplantHelp()

@@ -4,6 +4,7 @@ import (
 	"fmt"
 )
 
-func startImplantGeneratorQueue() {
+// Entrance point to implant queue
+func StartImplantGeneratorQueue() {
 	fmt.Printf("Beginning Implant Generator Queues")
 }
