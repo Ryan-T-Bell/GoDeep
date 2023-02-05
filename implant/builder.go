@@ -11,8 +11,7 @@ import (
 	"strings"
 )
 
-// Get GoDeep client dir
-func GetRootAppDir() string {
+func getRootAppDir() string {
 	user, _ := user.Current()
 	dir := filepath.Join(user.HomeDir, ".godeep-client")
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
@@ -25,13 +24,13 @@ func GetRootAppDir() string {
 }
 
 // GetGoRootDir - Get the path to GOROOT
-func GetGoRootDir(appDir string) string {
+func getGoRootDir(appDir string) string {
 	return filepath.Join(appDir, goDirName)
 }
 
 // GoCmd - Execute a go command
-func GoCmd(config implantConfig, cwd string, command []string) ([]byte, error) {
-	goBinPath := filepath.Join(GetGoRootDir(), "bin", "go")
+func goCmd(config implantConfig, cwd string, command []string) ([]byte, error) {
+	goBinPath := filepath.Join(getGoRootDir(), "bin", "go")
 	cmd := exec.Command(goBinPath, command...)
 	cmd.Dir = cwd
 	cmd.Env = []string{
@@ -59,9 +58,9 @@ func GoCmd(config implantConfig, cwd string, command []string) ([]byte, error) {
 }
 
 // GoBuild - Execute a go build command, returns stdout/error
-func GoBuild(config implantConfig, src string, dest string, buildmode string, tags []string, ldflags []string, gcflags, asmflags string, trimpath string) ([]byte, error) {
+func goBuild(config implantConfig, src string, dest string, buildmode string, tags []string, ldflags []string, gcflags, asmflags string, trimpath string) ([]byte, error) {
 	target := fmt.Sprintf("%s/%s", config.GOOS, config.GOARCH)
-	if _, ok := ValidCompilerTargets(config)[target]; !ok {
+	if _, ok := validCompilerTargets(config)[target]; !ok {
 		return nil, fmt.Errorf(fmt.Sprintf("Invalid compiler target: %s", target))
 	}
 	var goCommand = []string{"build"}
@@ -88,37 +87,37 @@ func GoBuild(config implantConfig, src string, dest string, buildmode string, ta
 	}
 	goCommand = append(goCommand, []string{"-o", dest, "."}...)
 
-	return GoCmd(config, src, goCommand)
+	return goCmd(config, src, goCommand)
 }
 
 // GoMod - Execute go module commands in src dir
-func GoMod(config implantConfig, src string, args []string) ([]byte, error) {
+func goMod(config implantConfig, src string, args []string) ([]byte, error) {
 	goCommand := []string{"mod"}
 	goCommand = append(goCommand, args...)
-	return GoCmd(config, src, goCommand)
+	return goCmd(config, src, goCommand)
 }
 
 // GoVersion - Execute a go version command, returns stdout/error
-func GoVersion(config implantConfig) ([]byte, error) {
+func goVersion(config implantConfig) ([]byte, error) {
 	var goCommand = []string{"version"}
 	wd, _ := os.Getwd()
-	return GoCmd(config, wd, goCommand)
+	return goCmd(config, wd, goCommand)
 }
 
 // ValidCompilerTargets - Returns a map of valid compiler targets
-func ValidCompilerTargets(config implantConfig) map[string]bool {
+func validCompilerTargets(config implantConfig) map[string]bool {
 	validTargets := make(map[string]bool)
-	for _, target := range GoToolDistList(config) {
+	for _, target := range goToolDistList(config) {
 		validTargets[target] = true
 	}
 	return validTargets
 }
 
 // GoToolDistList - Get a list of supported GOOS/GOARCH pairs
-func GoToolDistList(config implantConfig) []string {
+func goToolDistList(config implantConfig) []string {
 	var goCommand = []string{"tool", "dist", "list"}
 	wd, _ := os.Getwd()
-	data, err := GoCmd(config, wd, goCommand)
+	data, err := goCmd(config, wd, goCommand)
 	if err != nil {
 		return nil
 	}
