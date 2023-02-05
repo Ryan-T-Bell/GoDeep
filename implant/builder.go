@@ -11,9 +11,9 @@ import (
 	"strings"
 )
 
-func getRootAppDir() string {
+func getImplantDirectory() string {
 	user, _ := user.Current()
-	dir := filepath.Join(user.HomeDir, ".godeep-client")
+	dir := filepath.Join(user.HomeDir, ".godeep-implants")
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
 		err = os.MkdirAll(dir, 0700)
 		if err != nil {

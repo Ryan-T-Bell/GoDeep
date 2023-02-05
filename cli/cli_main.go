@@ -14,10 +14,11 @@ import (
 )
 
 // Strings
-const msgMain = "\n%s Go-DEEP > %s"
-const msgInvalidCommand = "%s Invalid command. Type \"?\" \"h\" or \"help\" for instructions. \n"
-const msgMainHelp = `Go-DEEP Main Help
--------------------------
+const msgMain = "\nGo-DEEP > "
+const msgInvalidCommand = "Invalid command. Type \"?\" \"h\" or \"help\" for instructions. \n"
+const msgMainHelp = `-----------------------------------------------------
+Go-DEEP Main Help
+-----------------------------------------------------
 [0] e (exit): Exit Go-DEEP command line interface.
 [1] i (implants): Unsorted database of generated implants.
 [2] p (paths): Paths of triggerable implants.
@@ -26,7 +27,7 @@ const msgMainHelp = `Go-DEEP Main Help
 // Main wrapper method for app command line interface.
 func RunCLI() {
 	for {
-		fmt.Printf(msgMain, utils.ColorRed, utils.ColorNone)
+		fmt.Printf("%s%s%s", utils.ColorRed, msgMain, utils.ColorNone)
 		input := readInput()
 
 		switch input {
@@ -37,9 +38,9 @@ func RunCLI() {
 		case "2", "p", "paths":
 			handlePaths()
 		case "h", "help", "?":
-			fmt.Printf(msgMainHelp)
+			fmt.Printf("%s", msgMainHelp)
 		default:
-			fmt.Printf(msgInvalidCommand, utils.INFO)
+			fmt.Printf("%s %s", utils.INFO, msgInvalidCommand)
 		}
 	}
 }
@@ -54,7 +55,7 @@ func readInput() string {
 
 // Exits CLI application.
 func handleExit() {
-	fmt.Printf("%s[?]%s Are you sure you want to exit? (y/n)\n> ", utils.ColorGreen, utils.ColorNone)
+	fmt.Printf("%s [?]%s Are you sure you want to exit? (y/n)\n> ", utils.ColorGreen, utils.ColorNone)
 	input := readInput()
 	if input == "y" || input == "yes" {
 		os.Exit(0)

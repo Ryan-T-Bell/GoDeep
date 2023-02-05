@@ -7,59 +7,16 @@ import (
 	"time"
 )
 
-// HandleImplants is the main function for the implant thread.
-func handleImplants() {
-	for {
-		printImplantCLI()
-		input := readInput()
-
-		switch input {
-		case "0", "b", "back":
-			return
-		case "1", "g", "generate":
-			generateImplantCLI()
-		case "2", "ls", "list":
-			listImplants()
-		case "h", "help", "?":
-			handleImplantHelp()
-		default:
-			printDefaultMessage()
-		}
-	}
-}
-
-// [0] Admin Functions
-func printImplantCLI() {
-	fmt.Printf("\n%s Go-DEEP [Implants] > %s", utils.ColorBlue, utils.ColorNone)
-}
-
-func handleImplantHelp() {
-	help := `Go-DEEP Implant Help
+const msgImplantHelp = `-----------------------------------------------------
+Go-DEEP Implant Help
 -----------------------------------------------------
 [0] b (back): Return to main thread.
 [1] g (generate): Enter queue to generate implants.
 [2] ls (list): List all implants that are generated.
 `
-	fmt.Print(help)
-}
 
-// [1] Generate Implant Functions
-func generateImplantCLI() {
-	goos := selectGOOS()
-	if goos != "back" {
-		goarch := selectGOARCH()
-		if goarch != "back" {
-			trigger := selectTriggerMethod()
-			if trigger != "back" {
-				implant.GenerateExecutable(goos, goarch, trigger)
-			}
-		}
-	}
-}
-
-// OS and Architectures from https://github.com/golang/go/blob/master/src/go/build/syslist.go
-func selectGOOS() string {
-	help := `Select Operating System:
+const msgGOOS_Help = `-----------------------------------------------------
+Select Operating System:
 -----------------------------------------------------
 [0] b (back): Return to main thread.
 [1] w (windows): Generate Windows implant.
@@ -81,10 +38,88 @@ func selectGOOS() string {
 [17] zos: Generate z/OS implant.
 
 > `
-	for {
-		printImplantCLI()
-		fmt.Printf("%s", help)
 
+const msgGOARCH_Help = `-----------------------------------------------------
+Select Architecture System:
+-----------------------------------------------------
+[0] b (back): Return to main thread.
+[1] 386
+[2] amd64
+[3] amd64p32
+[4] arm
+[5] armbe
+[6] arm64
+[7] arm64be
+[8] loong64
+[9] mips
+[10] mipsle
+[11] mips64
+[12] mips64le
+[13] mips64p32
+[14] mips64p32le
+[15] ppc
+[16] ppc64
+[17] ppc64le
+[18] riscv
+[19] riscv64
+[20] s390
+[21] s390x
+[22] sparc
+[23] sparc64
+[24] wasm
+
+> `
+
+const msgTriggerHelp = `-----------------------------------------------------
+Select Trigger Method:
+-----------------------------------------------------
+[0] b (back): Return to main thread.
+[1] s (server): Trigger via server.  Relies on running process.
+[2] w (webshell): Trigger via webshell. Relies on webserver.
+
+> `
+
+const msgImplantMain = "\nGo-DEEP [Implant] > "
+
+// HandleImplants is the main function for the implant thread.
+func handleImplants() {
+	for {
+		fmt.Printf("%s%s%s", utils.ColorBlue, msgImplantMain, utils.ColorNone)
+		input := readInput()
+
+		switch input {
+		case "0", "b", "back":
+			return
+		case "1", "g", "generate":
+			generateImplantCLI()
+		case "2", "ls", "list":
+			listImplants()
+		case "h", "help", "?":
+			fmt.Printf("%s", msgImplantHelp)
+		default:
+			fmt.Printf("%s %s", utils.INFO, msgInvalidCommand)
+		}
+	}
+}
+
+// [1] Generate Implant Functions
+func generateImplantCLI() {
+	goos := selectGOOS()
+	if goos != "back" {
+		goarch := selectGOARCH()
+		if goarch != "back" {
+			trigger := selectTriggerMethod()
+			if trigger != "back" {
+				implant.GenerateExecutable(goos, goarch, trigger)
+			}
+		}
+	}
+}
+
+// OS and Architectures from https://github.com/golang/go/blob/master/src/go/build/syslist.go
+func selectGOOS() string {
+	for {
+		fmt.Printf("%s%s%s\n%s", utils.ColorBlue, msgImplantMain, utils.ColorNone, msgGOOS_Help)
 		input := readInput()
 
 		switch input {
@@ -132,38 +167,8 @@ func selectGOOS() string {
 }
 
 func selectGOARCH() string {
-	help := `Select Architecture System:
------------------------------------------------------
-[0] b (back): Return to main thread.
-[1] 386
-[2] amd64
-[3] amd64p32
-[4] arm
-[5] armbe
-[6] arm64
-[7] arm64be
-[8] loong64
-[9] mips
-[10] mipsle
-[11] mips64
-[12] mips64le
-[13] mips64p32
-[14] mips64p32le
-[15] ppc
-[16] ppc64
-[17] ppc64le
-[18] riscv
-[19] riscv64
-[20] s390
-[21] s390x
-[22] sparc
-[23] sparc64
-[24] wasm"
-
-> `
 	for {
-		printImplantCLI()
-		fmt.Printf("%s", help)
+		fmt.Printf("%s%s%s\n%s", utils.ColorBlue, msgImplantMain, utils.ColorNone, msgGOARCH_Help)
 
 		input := readInput()
 
@@ -226,16 +231,8 @@ func selectGOARCH() string {
 }
 
 func selectTriggerMethod() string {
-	help := `Select Trigger Method:
------------------------------------------------------
-[0] b (back): Return to main thread.
-[1] s (server): Trigger via server.  Relies on running process.
-[2] w (webshell): Trigger via webshell. Relies on webserver.
-
-> `
 	for {
-		printImplantCLI()
-		fmt.Printf("%s", help)
+		fmt.Printf("%s%s%s\n%s", utils.ColorBlue, msgImplantMain, utils.ColorNone, msgTriggerHelp)
 
 		input := readInput()
 
