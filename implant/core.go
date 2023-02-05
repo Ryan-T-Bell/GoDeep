@@ -1,10 +1,7 @@
 package implant
 
-import (
-	"fmt"
-)
+import "fmt"
 
-// Entrance point to implant queue
-func StartImplantGeneratorQueue() {
-	fmt.Printf("Beginning Implant Generator Queues")
+func GenerateImplant(os int, arch int) {
+	fmt.Printf("%d %d", os, arch)
 }
