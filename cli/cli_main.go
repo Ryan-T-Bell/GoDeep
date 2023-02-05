@@ -45,7 +45,7 @@ func printMainInputLine() {
 }
 
 func printDefaultMessage() {
-	fmt.Printf("%s[-] Invalid command. Type \"h\" or \"help\" for instructions. \n", utils.ColorYellow)
+	fmt.Printf("%s Invalid command. Type \"h\" or \"help\" for instructions. \n", utils.INFO)
 }
 
 func handleExit() {
