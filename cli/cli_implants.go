@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"godeep/implant"
 	"godeep/utils"
+	"time"
 )
 
 // HandleImplants is the main function for the implant thread.
@@ -44,20 +45,20 @@ func handleImplantHelp() {
 
 // [1] Generate Implant Functions
 func generateImplantCLI() {
-	os := selectOperatingSystem()
-	if os != "back" {
-		arch := selectArchitecture()
-		if arch != "back" {
+	goos := selectGOOS()
+	if goos != "back" {
+		goarch := selectGOARCH()
+		if goarch != "back" {
 			trigger := selectTriggerMethod()
 			if trigger != "back" {
-				implant.GenerateExecutable(os, arch, trigger)
+				implant.GenerateExecutable(goos, goarch, trigger)
 			}
 		}
 	}
 }
 
 // OS and Architectures from https://github.com/golang/go/blob/master/src/go/build/syslist.go
-func selectOperatingSystem() string {
+func selectGOOS() string {
 	help := `Select Operating System:
 -----------------------------------------------------
 [0] b (back): Return to main thread.
@@ -78,7 +79,8 @@ func selectOperatingSystem() string {
 [15] plan9: Generate Plan 9 implant.
 [16] solaris: Generate Solaris implant.
 [17] zos: Generate z/OS implant.
-`
+
+> `
 	for {
 		printImplantCLI()
 		fmt.Printf("%s", help)
@@ -123,12 +125,13 @@ func selectOperatingSystem() string {
 		case "17", "zos":
 			return "zos"
 		default:
-			fmt.Printf("%s Invalid input.  Select operating system", utils.INFO)
+			fmt.Printf("%s Invalid input.  Select operating system.\n", utils.INFO)
+			time.Sleep(700 * time.Millisecond)
 		}
 	}
 }
 
-func selectArchitecture() string {
+func selectGOARCH() string {
 	help := `Select Architecture System:
 -----------------------------------------------------
 [0] b (back): Return to main thread.
@@ -156,7 +159,8 @@ func selectArchitecture() string {
 [22] sparc
 [23] sparc64
 [24] wasm"
-`
+
+> `
 	for {
 		printImplantCLI()
 		fmt.Printf("%s", help)
@@ -215,7 +219,8 @@ func selectArchitecture() string {
 		case "24", "wasm":
 			return "wasm"
 		default:
-			fmt.Printf("%s Invalid input.  Select architecture.", utils.INFO)
+			fmt.Printf("%s Invalid input.  Select architecture.\n", utils.INFO)
+			time.Sleep(700 * time.Millisecond)
 		}
 	}
 }
@@ -226,7 +231,8 @@ func selectTriggerMethod() string {
 [0] b (back): Return to main thread.
 [1] s (server): Trigger via server.  Relies on running process.
 [2] w (webshell): Trigger via webshell. Relies on webserver.
-`
+
+> `
 	for {
 		printImplantCLI()
 		fmt.Printf("%s", help)
@@ -241,7 +247,8 @@ func selectTriggerMethod() string {
 		case "2", "w", "webshell":
 			return "webshell"
 		default:
-			fmt.Printf("%s Invalid input.  Select trigger method.", utils.INFO)
+			fmt.Printf("%s Invalid input.  Select trigger method.\n", utils.INFO)
+			time.Sleep(700 * time.Millisecond)
 		}
 	}
 }
