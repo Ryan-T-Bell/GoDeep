@@ -13,16 +13,20 @@ import (
 	"strings"
 )
 
-const mainHelp = `Go-DEEP Main Help
+// Strings
+const msgMain = "\n%s Go-DEEP > %s"
+const msgInvalidCommand = "%s Invalid command. Type \"?\" \"h\" or \"help\" for instructions. \n"
+const msgMainHelp = `Go-DEEP Main Help
 -------------------------
 [0] e (exit): Exit Go-DEEP command line interface.
 [1] i (implants): Unsorted database of generated implants.
 [2] p (paths): Paths of triggerable implants.
 `
 
+// Main wrapper method for app command line interface.
 func RunCLI() {
 	for {
-		fmt.Printf("\n%s Go-DEEP > %s", utils.ColorRed, utils.ColorNone)
+		fmt.Printf(msgMain, utils.ColorRed, utils.ColorNone)
 		input := readInput()
 
 		switch input {
@@ -33,14 +37,14 @@ func RunCLI() {
 		case "2", "p", "paths":
 			handlePaths()
 		case "h", "help", "?":
-			fmt.Printf(mainHelp)
+			fmt.Printf(msgMainHelp)
 		default:
-			fmt.Printf("%s Invalid command. Type \"?\" \"h\" or \"help\" for instructions. \n", utils.INFO)
+			fmt.Printf(msgInvalidCommand, utils.INFO)
 		}
 	}
 }
 
-// readInput reads input from the command line.
+// Reads input from the command line.
 func readInput() string {
 	reader := bufio.NewReader(os.Stdin)
 	input, err := reader.ReadString('\n')
@@ -48,6 +52,7 @@ func readInput() string {
 	return strings.TrimSuffix(input, "\n")
 }
 
+// Exits CLI application.
 func handleExit() {
 	fmt.Printf("%s[?]%s Are you sure you want to exit? (y/n)\n> ", utils.ColorGreen, utils.ColorNone)
 	input := readInput()
