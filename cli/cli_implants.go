@@ -49,7 +49,7 @@ func generateImplantCLI() {
 		arch := selectArchitecture()
 		if arch != "back" {
 			trigger := selectTriggerMethod()
-			if trigger != 0 {
+			if trigger != "back" {
 				implant.GenerateExecutable(os, arch, trigger)
 			}
 		}
@@ -94,6 +94,34 @@ func selectOperatingSystem() string {
 			return "linux"
 		case "3", "d", "darwin":
 			return "darwin"
+		case "4", "a", "android":
+			return "android"
+		case "5", "i", "ios":
+			return "ios"
+		case "6", "aix":
+			return "aix"
+		case "7", "dragonfly":
+			return "dragonfly"
+		case "8", "freebsd":
+			return "freebsd"
+		case "9", "hurd":
+			return "hurd"
+		case "10", "illumos":
+			return "illumos"
+		case "11", "js":
+			return "js"
+		case "12", "nacl":
+			return "nacl"
+		case "13", "netbsd":
+			return "netbsd"
+		case "14", "openbsd":
+			return "openbsd"
+		case "15", "plan9":
+			return "plan9"
+		case "16", "solaris":
+			return "solaris"
+		case "17", "zos":
+			return "zos"
 		default:
 			fmt.Printf("%s Invalid input.  Select operating system", utils.INFO)
 		}
@@ -192,7 +220,7 @@ func selectArchitecture() string {
 	}
 }
 
-func selectTriggerMethod() int {
+func selectTriggerMethod() string {
 	help := `Select Trigger Method:
 -----------------------------------------------------
 [0] b (back): Return to main thread.
@@ -207,11 +235,11 @@ func selectTriggerMethod() int {
 
 		switch input {
 		case "0", "b", "back":
-			return 0
+			return "back"
 		case "1", "s", "server":
-			return 1
+			return "server"
 		case "2", "w", "webshell":
-			return 2
+			return "webshell"
 		default:
 			fmt.Printf("%s Invalid input.  Select trigger method.", utils.INFO)
 		}

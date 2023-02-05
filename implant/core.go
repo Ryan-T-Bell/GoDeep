@@ -1,7 +1,10 @@
 package implant
 
-import "fmt"
+import (
+	"fmt"
+	"godeep/utils"
+)
 
-func GenerateExecutable(os string, arch string, trigger int) {
-	fmt.Printf("%s %s %d", os, arch, trigger)
+func GenerateExecutable(os string, arch string, trigger string) {
+	fmt.Printf("%s[*] Building Implant: %s %s %s", utils.ColorBlue, os, arch, trigger)
 }
