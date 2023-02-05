@@ -48,7 +48,7 @@ func generateImplantCLI() {
 	if os != 0 {
 		arch := selectArchitecture()
 		if arch != 0 {
-			trigger = selectTriggerMethod()
+			trigger := selectTriggerMethod()
 			if trigger != 0 {
 				implant.GenerateExecutable(os, arch, trigger)
 			}
