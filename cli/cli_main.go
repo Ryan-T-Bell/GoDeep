@@ -2,7 +2,7 @@ package cli
 
 /*
 cli is a package to kick off GO-DEEP functions.
-This is a command line interface
+Think of this as the switching board for all actions.
 */
 
 import (
@@ -19,16 +19,16 @@ func RunCLI() {
 		input := readInput()
 
 		switch input {
-		case "0":
+		case "0", "e", "exit":
 			handleExit()
-		case "exit":
-			handleExit()
-		case "h":
-			handleHelp()
-		case "help":
-			handleHelp()
+		case "1", "i", "implants":
+			handleImplants()
+		case "2", "p", "paths":
+			handlePaths()
+		case "h", "help":
+			handleMainHelp()
 		default:
-			fmt.Printf("%s[-] Invalid command.  Type \"h\" or \"help\" for instructions. \n", utils.ColorYellow)
+			printDefaultMessage()
 		}
 	}
 }
@@ -41,7 +41,11 @@ func readInput() string {
 }
 
 func printMainInputLine() {
-	fmt.Printf("%s Go-DEEP > %s", utils.ColorRed, utils.ColorNone)
+	fmt.Printf("\n%s Go-DEEP > %s", utils.ColorRed, utils.ColorNone)
+}
+
+func printDefaultMessage() {
+	fmt.Printf("%s[-] Invalid command. Type \"h\" or \"help\" for instructions. \n", utils.ColorYellow)
 }
 
 func handleExit() {
@@ -52,15 +56,12 @@ func handleExit() {
 	}
 }
 
-func handleHelp() {
-	help := `
-Go-DEEP
+func handleMainHelp() {
+	help := `Go-DEEP Main Help
 -------------------------
-[0] e (exit): Exit Go-DEEP Command Line.
+[0] e (exit): Exit Go-DEEP command line interface.
 [1] i (implants): Unsorted database of generated implants.
-[2] p (paths): 
-[3] t (triggers): 
-
+[2] p (paths): Paths of triggerable implants.
 `
 	fmt.Print(help)
 }
