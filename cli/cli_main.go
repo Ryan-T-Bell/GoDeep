@@ -25,7 +25,7 @@ func RunCLI() {
 			handleImplants()
 		case "2", "p", "paths":
 			handlePaths()
-		case "h", "help":
+		case "h", "help", "?":
 			handleMainHelp()
 		default:
 			printDefaultMessage()
@@ -45,7 +45,7 @@ func printMainInputLine() {
 }
 
 func printDefaultMessage() {
-	fmt.Printf("%s Invalid command. Type \"h\" or \"help\" for instructions. \n", utils.INFO)
+	fmt.Printf("%s Invalid command. Type \"?\" \"h\" or \"help\" for instructions. \n", utils.INFO)
 }
 
 func handleExit() {

@@ -11,7 +11,7 @@ const ColorWhite = "\033[37m"
 
 const ColorNone = "\033[0m"
 
-const INFO = "\033[1m\033[36m[-]\033[0m "
+const INFO = "\033[1m\033[33m[-]\033[0m "
 const WARN = "\033[1m\033[31m[!]\033[0m "
 const BOLD = "\033[1m"
 const NORM = "\033[0m"
