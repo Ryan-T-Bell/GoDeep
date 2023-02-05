@@ -45,9 +45,9 @@ func handleImplantHelp() {
 // [1] Generate Implant Functions
 func generateImplantCLI() {
 	os := selectOperatingSystem()
-	if os != 0 {
+	if os != "back" {
 		arch := selectArchitecture()
-		if arch != 0 {
+		if arch != "back" {
 			trigger := selectTriggerMethod()
 			if trigger != 0 {
 				implant.GenerateExecutable(os, arch, trigger)
@@ -56,13 +56,14 @@ func generateImplantCLI() {
 	}
 }
 
-func selectOperatingSystem() int {
+// OS and Architectures from https://github.com/golang/go/blob/master/src/go/build/syslist.go
+func selectOperatingSystem() string {
 	help := `Select Operating System:
 -----------------------------------------------------
 [0] b (back): Return to main thread.
 [1] w (windows): Generate Windows implant.
 [2] l (linux): Generate Linux implant.
-[3] m (mac): Generate Mac implant.
+[3] d (darwin): Generate Darwin (Mac-OS) implant.
 `
 	for {
 		printImplantCLI()
@@ -72,36 +73,47 @@ func selectOperatingSystem() int {
 
 		switch input {
 		case "0", "b", "back":
-			return 0
+			return "back"
 		case "1", "w", "windows":
-			return 1
+			return "windows"
 		case "2", "l", "linux":
-			return 2
-		case "3", "m", "mac":
-			return 3
+			return "linux"
+		case "3", "d", "darwin":
+			return "darwin"
 		default:
 			fmt.Printf("%s Invalid input.  Select operating system", utils.INFO)
 		}
 	}
 }
 
-func selectArchitecture() int {
+func selectArchitecture() string {
 	help := `Select Architecture System:
 -----------------------------------------------------
 [0] b (back): Return to main thread.
-[1] amd64: AMD64 architecture.
-[2] x86_64: x86_64 architecture.
-[3] x86: x86 architecture.
-[4] arm: ARM architecture.
-[5] arm64: ARM64 architecture.
-[6] mips: MIPS architecture.
-[7] mips64: MIPS64 architecture.
-[8] mips64le: MIPS64LE architecture.
-[9] mipsle: MIPSLE architecture.
-[10] ppc64: PPC64 architecture.
-[11] ppc64le: PPC64LE architecture.
-[12] riscv64: RISCV64 architecture.
-[13] s390x: S390X architecture.
+[1] 386
+[2] amd64
+[3] amd64p32
+[4] arm
+[5] armbe
+[6] arm64
+[7] arm64be
+[8] loong64
+[9] mips
+[10] mipsle
+[11] mips64
+[12] mips64le
+[13] mips64p32
+[14] mips64p32le
+[15] ppc
+[16] ppc64
+[17] ppc64le
+[18] riscv
+[19] riscv64
+[20] s390
+[21] s390x
+[22] sparc
+[23] sparc64
+[24] wasm"
 `
 	for {
 		printImplantCLI()
@@ -111,33 +123,55 @@ func selectArchitecture() int {
 
 		switch input {
 		case "0", "b", "back":
-			return 0
-		case "1", "amd64":
-			return 1
-		case "2", "x86_64":
-			return 2
-		case "3", "x86":
-			return 3
+			return "back"
+		case "1", "386":
+			return "386"
+		case "2", "amd64":
+			return "amd64"
+		case "3", "amd64p32":
+			return "amd64p32"
 		case "4", "arm":
-			return 4
-		case "5", "arm64":
-			return 5
-		case "6", "mips":
-			return 6
-		case "7", "mips64":
-			return 7
-		case "8", "mips64le":
-			return 8
-		case "9", "mipsle":
-			return 9
-		case "10", "ppc64":
-			return 10
-		case "11", "ppc64le":
-			return 11
-		case "12", "riscv64":
-			return 12
-		case "13", "s390x":
-			return 13
+			return "arm"
+		case "5", "armbe":
+			return "armbe"
+		case "6", "arm64":
+			return "arm64"
+		case "7", "arm64be":
+			return "arm64be"
+		case "8", "loong64":
+			return "loong64"
+		case "9", "mips":
+			return "mips"
+		case "10", "mipsle":
+			return "mipsle"
+		case "11", "mips64":
+			return "mips64"
+		case "12", "mips64le":
+			return "mips64le"
+		case "13", "mips64p32":
+			return "mips64p32"
+		case "14", "mips64p32le":
+			return "mips64p32le"
+		case "15", "ppc":
+			return "ppc"
+		case "16", "ppc64":
+			return "ppc64"
+		case "17", "ppc64le":
+			return "ppc64le"
+		case "18", "riscv":
+			return "riscv"
+		case "19", "riscv64":
+			return "riscv64"
+		case "20", "s390":
+			return "s390"
+		case "21", "s390x":
+			return "s390x"
+		case "22", "sparc":
+			return "sparc"
+		case "23", "sparc64":
+			return "sparc64"
+		case "24", "wasm":
+			return "wasm"
 		default:
 			fmt.Printf("%s Invalid input.  Select architecture.", utils.INFO)
 		}
