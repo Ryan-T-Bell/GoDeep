@@ -3,34 +3,15 @@ package implant
 import (
 	"bytes"
 	"fmt"
-	"log"
+	"godeep/utils"
 	"os"
 	"os/exec"
-	"os/user"
-	"path/filepath"
 	"strings"
 )
 
-func getImplantDirectory() string {
-	user, _ := user.Current()
-	dir := filepath.Join(user.HomeDir, ".godeep-implants")
-	if _, err := os.Stat(dir); os.IsNotExist(err) {
-		err = os.MkdirAll(dir, 0700)
-		if err != nil {
-			log.Fatal(err)
-		}
-	}
-	return dir
-}
-
-// GetGoRootDir - Get the path to GOROOT
-func getGoRootDir(appDir string) string {
-	return filepath.Join(appDir, goDirName)
-}
-
 // GoCmd - Execute a go command
 func goCmd(config implantConfig, cwd string, command []string) ([]byte, error) {
-	goBinPath := filepath.Join(getGoRootDir(""), "bin", "go")
+	goBinPath := utils.GetGoPath()
 	cmd := exec.Command(goBinPath, command...)
 	cmd.Dir = cwd
 	cmd.Env = []string{
@@ -46,13 +27,9 @@ func goCmd(config implantConfig, cwd string, command []string) ([]byte, error) {
 	cmd.Stderr = &stderr
 
 	fmt.Print("go cmd: '%v'", cmd)
+
 	err := cmd.Run()
-	if err != nil {
-		fmt.Print("--- env ---\n")
-		for _, envVar := range cmd.Env {
-			fmt.Print("%s\n", envVar)
-		}
-	}
+	utils.GoCmdHandleErrors(err, cmd)
 
 	return stdout.Bytes(), err
 }
