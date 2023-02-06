@@ -8,7 +8,7 @@ import (
 )
 
 // Get impant directory: ~/.godeep-implants
-func getImplantDirectory() string {
+func GetImplantDirectory() string {
 	user, _ := user.Current()
 	dir := filepath.Join(user.HomeDir, ".godeep-implants")
 	makeImplantDirectoryIfNil(dir)
@@ -27,5 +27,5 @@ func makeImplantDirectoryIfNil(dir string) {
 
 func GetGoPath() string {
 	user, _ := user.Current()
-	return filepath.Join(user.HomeDir, "bin", "go")
+	return filepath.Join(user.HomeDir, "go", "bin")
 }

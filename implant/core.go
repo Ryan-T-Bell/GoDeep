@@ -25,5 +25,17 @@ type implantConfig struct {
 
 func GenerateExecutable(os string, arch string, trigger string) {
 	fmt.Printf("%s[*] Building Implant: %s, %s, %s ...\n\n", utils.ColorBlue, os, arch, trigger)
-	fmt.Printf(getImplantDirectory())
+
+	config := implantConfig{
+		ProjectDir: utils.GetImplantDirectory(),
+		GOOS:       os,
+		GOARCH:     arch,
+		CGO:        "0",
+		CC:         "",
+		CXX:        "",
+		Trigger:    trigger,
+	}
+	for i, v := range goToolDistList(config) {
+		fmt.Printf("$d $s", i, v)
+	}
 }
