@@ -1,3 +1,5 @@
+package implant
+
 import (
     "fmt"
     "os"
@@ -5,12 +7,10 @@ import (
 )
 
 func generate() {
-    // Get the name of the executable file.
-    exeName := os.Args[0]
+    exeName := "TestImplant"
 
     // Check if the executable file is already present.
     if _, err := os.Stat(exeName); err == nil {
-        // The executable file is already present, so exit.
         fmt.Println("The executable file is already present.")
         return
     }

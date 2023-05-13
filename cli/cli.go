@@ -9,21 +9,10 @@ import (
 	"bufio"
 	"fmt"
 	"godeep/utils"
+	"godeep/implant"
 	"os"
 	"strings"
 )
-
-// Strings
-const msgMain = "\nGo-DEEP > "
-const msgInvalidCommand = "Invalid command. Type \"?\" \"h\" or \"help\" for instructions. \n"
-const msgMainHelp = `-----------------------------------------------------
-Go-DEEP Main Help
------------------------------------------------------
-e (exit): Exit Go-DEEP command line interface.
-g (generate): Generate an agent (beacon/trigger/RAT).
-ls (list): List all agents.
-
-`
 
 // Reads input from the command line.
 func readInput() string {
@@ -53,6 +42,8 @@ func RunCLI() {
 			handleExit()
 		case "h", "help", "?":
 			fmt.Printf("%s", msgMainHelp)
+		case "g", "generate":
+			generate()
 		default:
 			fmt.Printf("%s %s", utils.INFO, msgInvalidCommand)
 		}
