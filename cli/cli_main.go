@@ -19,31 +19,11 @@ const msgInvalidCommand = "Invalid command. Type \"?\" \"h\" or \"help\" for ins
 const msgMainHelp = `-----------------------------------------------------
 Go-DEEP Main Help
 -----------------------------------------------------
-[0] e (exit): Exit Go-DEEP command line interface.
-[1] i (implants): Unsorted database of generated implants.
-[2] p (paths): Paths of triggerable implants.
+e (exit): Exit Go-DEEP command line interface.
+g (generate): Generate an agent (beacon/trigger/RAT).
+ls (list): List all agents.
+
 `
-
-// Main wrapper method for app command line interface.
-func RunCLI() {
-	for {
-		fmt.Printf("%s%s%s", utils.ColorRed, msgMain, utils.ColorNone)
-		input := readInput()
-
-		switch input {
-		case "0", "e", "exit":
-			handleExit()
-		case "1", "i", "implants":
-			handleImplants()
-		case "2", "p", "paths":
-			handlePaths()
-		case "h", "help", "?":
-			fmt.Printf("%s", msgMainHelp)
-		default:
-			fmt.Printf("%s %s", utils.INFO, msgInvalidCommand)
-		}
-	}
-}
 
 // Reads input from the command line.
 func readInput() string {
@@ -61,3 +41,24 @@ func handleExit() {
 		os.Exit(0)
 	}
 }
+
+// Main wrapper method for app command line interface.
+func RunCLI() {
+	for {
+		fmt.Printf("%s%s%s", utils.ColorBlue, msgMain, utils.ColorNone)
+		input := readInput()
+
+		switch input {
+		case "e", "exit":
+			handleExit()
+		case "h", "help", "?":
+			fmt.Printf("%s", msgMainHelp)
+		default:
+			fmt.Printf("%s %s", utils.INFO, msgInvalidCommand)
+		}
+	}
+}
+
+
+
+
