@@ -43,7 +43,7 @@ func RunCLI() {
 		case "h", "help", "?":
 			fmt.Printf("%s", msgMainHelp)
 		case "g", "generate":
-			generate()
+			implant.Generate()
 		default:
 			fmt.Printf("%s %s", utils.INFO, msgInvalidCommand)
 		}
