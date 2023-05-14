@@ -9,7 +9,7 @@ import (
 	"bufio"
 	"fmt"
 	"godeep/utils"
-	"godeep/implant"
+	"godeep/forge"
 	"os"
 	"strings"
 )
@@ -24,7 +24,7 @@ func readInput() string {
 
 // Exits CLI application.
 func handleExit() {
-	fmt.Printf("%s [?]%s Are you sure you want to exit? (y/n)\n> ", utils.ColorGreen, utils.ColorNone)
+	fmt.Printf("%s [?]%s Are you sure you want to exit? (y/n) > ", utils.ColorGreen, utils.ColorNone)
 	input := readInput()
 	if input == "y" || input == "yes" {
 		os.Exit(0)
@@ -43,7 +43,7 @@ func RunCLI() {
 		case "h", "help", "?":
 			fmt.Printf("%s", msgMainHelp)
 		case "g", "generate":
-			implant.Generate()
+			forge.Generate()
 		default:
 			fmt.Printf("%s %s", utils.INFO, msgInvalidCommand)
 		}
