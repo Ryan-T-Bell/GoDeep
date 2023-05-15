@@ -1,3 +1,13 @@
+package forge
+
+import (
+	"bytes"
+	"fmt"
+	"os"
+	"os/exec"
+	"path/filepath"
+)
+
 type GoConfig struct {
 	ProjectDir string
 
@@ -42,8 +52,6 @@ func GoCmd(config GoConfig, cwd string, command []string) ([]byte, error) {
 	cmd := exec.Command(goBinPath, command...)
 	cmd.Dir = cwd
 	cmd.Env = []string{
-		fmt.Sprintf("CC=%s", config.CC),
-		fmt.Sprintf("CGO_ENABLED=%s", config.CGO),
 		fmt.Sprintf("GOOS=%s", config.GOOS),
 		fmt.Sprintf("GOARCH=%s", config.GOARCH),
 		fmt.Sprintf("GOPATH=%s", config.ProjectDir),
@@ -55,23 +63,20 @@ func GoCmd(config GoConfig, cwd string, command []string) ([]byte, error) {
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
 
-	gogoLog.Infof("go cmd: '%v'", cmd)
 	err := cmd.Run()
 	if err != nil {
-		gogoLog.Infof("--- env ---\n")
 		for _, envVar := range cmd.Env {
-			gogoLog.Infof("%s\n", envVar)
+			fmt.Println("%s\n", envVar)
 		}
-		gogoLog.Infof("--- stdout ---\n%s\n", stdout.String())
-		gogoLog.Infof("--- stderr ---\n%s\n", stderr.String())
-		gogoLog.Info(err)
 	}
 
 	return stdout.Bytes(), err
 }
 
 func GoBuild(config GoConfig, src string, dest string, buildmode string, tags []string, ldflags []string, gcflags, asmflags string, trimpath string) ([]byte, error) {
+	
 	target := fmt.Sprintf("%s/%s", config.GOOS, config.GOARCH)
+
 	if _, ok := ValidCompilerTargets(config)[target]; !ok {
 		return nil, fmt.Errorf(fmt.Sprintf("Invalid compiler target: %s", target))
 	}
@@ -98,8 +103,6 @@ func GoBuild(config GoConfig, src string, dest string, buildmode string, tags []
 		goCommand = append(goCommand, fmt.Sprintf("-buildmode=%s", buildmode))
 	}
 	goCommand = append(goCommand, []string{"-o", dest, "."}...)
-	if config.Obfuscation {
-		return GarbleCmd(config, src, goCommand)
-	}
+
 	return GoCmd(config, src, goCommand)
 }
