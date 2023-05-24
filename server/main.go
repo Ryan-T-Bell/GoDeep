@@ -7,7 +7,7 @@ package main
 */
 
 import (
-	"godeep/cli"
+	"godeep/server/cli"
 )
 
 func main() {

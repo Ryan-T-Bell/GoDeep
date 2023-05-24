@@ -8,8 +8,8 @@ Think of this as the switching board for all actions.
 import (
 	"bufio"
 	"fmt"
-	"godeep/utils"
-	"godeep/forge"
+	"godeep/server/utils"
+	"godeep/server/forge"
 	"os"
 	"strings"
 )
