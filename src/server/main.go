@@ -1,4 +1,4 @@
-package main
+package server
 
 /*
 	This is the starting point for Go-DEEP.
