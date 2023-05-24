@@ -8,7 +8,7 @@ import (
 
 func Generate() {
 
-    cmd := exec.Command("go", "build", "-o", "test.exe", "godeep/implant")
+    cmd := exec.Command("go", "build", "-o", "test.exe", "../implant")
     cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 
