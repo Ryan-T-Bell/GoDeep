@@ -8,7 +8,7 @@ import (
 	"bufio"
 	"fmt"
 	"godeep/server/utils"
-	"godeep/server/forge"
+	"godeep/server/generate"
 	"os"
 	"strings"
 )
@@ -57,7 +57,7 @@ func RunCLI() {
 		case "h", "help", "?":
 			handleHelp()
 		case "g", "generate":
-			forge.Generate(input)
+			generate.Generate(input)
 		default:
 			handleInvalidCommand()
 		}
