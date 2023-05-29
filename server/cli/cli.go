@@ -2,7 +2,6 @@ package cli
 
 /*
 cli is a package to kick off GO-DEEP functions.
-Think of this as the switching board for all actions.
 */
 
 import (
@@ -26,9 +25,13 @@ func readInput() string {
 func handleExit() {
 	fmt.Printf("%s [?]%s Are you sure you want to exit? (y/n) > ", utils.ColorGreen, utils.ColorNone)
 	input := readInput()
-	if input == "y" || input == "yes" {
+	if (input == "y" || input == "yes") {
 		os.Exit(0)
 	}
+}
+
+func handleHelp() {
+	fmt.Printf("%s", msgMainHelp)
 }
 
 // Main wrapper method for app command line interface.
@@ -41,7 +44,7 @@ func RunCLI() {
 		case "e", "exit":
 			handleExit()
 		case "h", "help", "?":
-			fmt.Printf("%s", msgMainHelp)
+			handleHelp()
 		case "g", "generate":
 			forge.Generate()
 		default:
