@@ -5,7 +5,6 @@ import (
 	"os"
 	"os/user"
 	"path/filepath"
-	"strings"
 )
 
 func GetWorkingDirectory() string {
@@ -14,11 +13,6 @@ func GetWorkingDirectory() string {
 		fmt.Println(err)
 	}
 	return dir
-}
-
-func GetImplantModulePath() string {
-	filePath := GetWorkingDirectory()
-	return strings.Replace(filePath, "/server", "/implant", 1)
 }
 
 // GetHomeDirectory returns the home directory of the current user
