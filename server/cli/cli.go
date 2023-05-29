@@ -31,13 +31,24 @@ func handleExit() {
 }
 
 func handleHelp() {
-	fmt.Printf("%s", msgMainHelp)
+	fmt.Printf("%s", `
+	-----------------------------------------------------
+	Go-DEEP Main Help
+	-----------------------------------------------------
+	[e] (exit): Exit Go-DEEP command line interface.
+	[g] (generate): Generate an agent (beacon/trigger/RAT).
+	[ls] (list): List all agents.
+	`)
+}
+
+func handleInvalidCommand() {
+	fmt.Printf("%s %s", utils.INFO, "Invalid command. Type \"?\" \"h\" or \"help\" for instructions. \n")
 }
 
 // Main wrapper method for app command line interface.
 func RunCLI() {
 	for {
-		fmt.Printf("%s%s%s", utils.ColorBlue, msgMain, utils.ColorNone)
+		fmt.Printf("%s%s%s", utils.ColorBlue, "\nGo-DEEP > ", utils.ColorNone)
 		input := readInput()
 
 		switch input {
@@ -46,9 +57,9 @@ func RunCLI() {
 		case "h", "help", "?":
 			handleHelp()
 		case "g", "generate":
-			forge.Generate()
+			forge.Generate(input)
 		default:
-			fmt.Printf("%s %s", utils.INFO, msgInvalidCommand)
+			handleInvalidCommand()
 		}
 	}
 }

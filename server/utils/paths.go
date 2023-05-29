@@ -1,31 +1,47 @@
 package utils
 
 import (
-	"log"
+	"fmt"
 	"os"
 	"os/user"
 	"path/filepath"
+	"strings"
 )
 
-// Get impant directory: ~/.godeep-implants
-func GetImplantDirectory() string {
-	user, _ := user.Current()
-	dir := filepath.Join(user.HomeDir, ".godeep-implants")
-	makeImplantDirectoryIfNil(dir)
+func GetWorkingDirectory() string {
+	dir, err := os.Getwd()
+	if err != nil {
+		fmt.Println(err)
+	}
 	return dir
 }
 
-// Make implant directory if it does not exist
-func makeImplantDirectoryIfNil(dir string) {
+func GetImplantModulePath() string {
+	filePath := GetWorkingDirectory()
+	return strings.Replace(filePath, "/server", "/implant", 1)
+}
+
+// GetHomeDirectory returns the home directory of the current user
+func getHomeDirectory() string {
+	user, _ := user.Current()
+	return user.HomeDir
+}
+
+// Create implant output directory if Nil
+func makeOutputDirectoryIfNil(dir string) {
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
-		err = os.MkdirAll(dir, 0700)
+		err = os.MkdirAll(dir, 0755)
+
 		if err != nil {
-			log.Fatal(err)
+			fmt.Println(err)
 		}
 	}
 }
 
-func GetGoPath() string {
-	user, _ := user.Current()
-	return filepath.Join(user.HomeDir, "go", "bin")
+// Output path is $HOME/.godeep
+func GetOutputPath(name string) string {
+	dir := filepath.Join(getHomeDirectory(), ".godeep")
+
+	makeOutputDirectoryIfNil(dir)
+	return filepath.Join(dir, name)
 }
