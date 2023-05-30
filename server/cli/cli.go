@@ -23,7 +23,7 @@ func readInput() string {
 
 // Exits CLI application.
 func handleExit() {
-	fmt.Printf("%s [?]%s Are you sure you want to exit? (y/n) > ", utils.ColorGreen, utils.ColorNone)
+	fmt.Printf("%s [?]%s Are you sure you want to exit? (y/n) > ", utils.ColorGreen, utils.RESET)
 	input := readInput()
 	if (input == "y" || input == "yes") {
 		os.Exit(0)
@@ -45,19 +45,24 @@ func handleInvalidCommand() {
 	fmt.Printf("%s %s", utils.INFO, "Invalid command. Type \"?\" \"h\" or \"help\" for instructions. \n")
 }
 
+// Get first word of input string
+func parseCommand(input string) string {
+	return strings.Split(input, " ")[0]
+}
+
 // Main wrapper method for app command line interface.
 func RunCLI() {
 	for {
-		fmt.Printf("%s%s%s", utils.ColorBlue, "\nGo-DEEP > ", utils.ColorNone)
+		fmt.Printf("%s%s%s", utils.ColorBlue, "\nGo-DEEP > ", utils.RESET)
 		input := readInput()
 
-		switch input {
+		switch parseCommand(input) {
 		case "e", "exit":
 			handleExit()
 		case "h", "help", "?":
 			handleHelp()
 		case "g", "generate":
-			generate.Generate(input)
+			generate.HandleGenerate(input)
 		default:
 			handleInvalidCommand()
 		}
