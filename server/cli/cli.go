@@ -13,10 +13,20 @@ import (
 	"strings"
 )
 
+const HELP = `
+-----------------------------------------------------
+Go-DEEP Main Help
+-----------------------------------------------------
+[e] (exit): Exit Go-DEEP command line interface.
+[g] (generate): Generate an agent (beacon/trigger/RAT).
+[ls] (list): List all agents.
+`
+
 // Reads input from the command line.
 func readInput() string {
 	reader := bufio.NewReader(os.Stdin)
 	input, err := reader.ReadString('\n')
+
 	utils.PrintError(err)
 	return strings.TrimSuffix(input, "\n")
 }
@@ -30,19 +40,19 @@ func handleExit() {
 	}
 }
 
+// Display help instructions
 func handleHelp() {
-	fmt.Printf("%s", `
-	-----------------------------------------------------
-	Go-DEEP Main Help
-	-----------------------------------------------------
-	[e] (exit): Exit Go-DEEP command line interface.
-	[g] (generate): Generate an agent (beacon/trigger/RAT).
-	[ls] (list): List all agents.
-	`)
+	fmt.Printf("%s", HELP)
 }
 
+// Display invalid command message
 func handleInvalidCommand() {
-	fmt.Printf("%s %s", utils.INFO, "Invalid command. Type \"?\" \"h\" or \"help\" for instructions. \n")
+	fmt.Printf("%s%sInvalid command. Type \"?\" \"h\" or \"help\" for instructions. \n", utils.INFO, utils.RESET)
+}
+
+// List all agents
+func handleList() {
+	fmt.Printf("List\n")
 }
 
 // Get first word of input string
@@ -63,6 +73,8 @@ func RunCLI() {
 			handleHelp()
 		case "g", "generate":
 			generate.HandleGenerate(input)
+		case "ls", "list":
+			handleList()
 		default:
 			handleInvalidCommand()
 		}
