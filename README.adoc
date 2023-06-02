@@ -1,6 +1,63 @@
+:imagesdir: images
+:toc:
+:icons: font
+:source-highlighter: highlightjs
+
 = GoDeep
 
+== Overview
+GoDeep is a CLI application that is used to generate multi-os implants for Red Team Operations.  The base application acts as a server that:
+
+- Generates implants
+- Sends commands to implants
+- Keeps a database of active implants & paths
+
 == Procedures
-Test 
+
+=== Start CLI Application
+```
+./godeep
+```
+
+=== Generate Implant
+Below is the command to generate an implant.  The implant will be generated in the users home directory at ($HOME/.godeep/implants).  If the directory is not present, it will be created.  The implant will be named with the following format: <goos>-<arch>.
+```
+generate <GOOS> <GOARCH>
+```
+1) Available GO Operating Systems (GOOS)
+```
+windows
+linux
+darwin
+```
+
+2) Available GO Architectures (GOARCH)
+```
+amd64
+386
+arm
+```
+
+When the implant is generated, it will also be registered in the database located at ($HOME/.godeep/implants.db).  If the database is not present, it will be created.  This db is used to keep track of the implants and their paths.
+
+To view the implants in the database, use the following command:
+```
+ls -i
+```
+
+To view implants and associated paths, use the following command:
+```
+ls -p
+```
+
+=== Use Implant
+When an implant is executed, it waits for a pre-defined trigger consisting of:
+
+- A port knock sequence
+- Key exchange
+- Command to execute
+
+
 
 == Change Log
+- 1.0.0: Initial Release

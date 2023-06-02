@@ -1,12 +1,12 @@
 package generate
 
 import (
-    "fmt"
-    "os/exec"
-    "os"
+	"fmt"
+	"godeep/server/utils"
+	"os"
+	"os/exec"
 	"runtime"
 	"strings"
-	"godeep/server/utils"
 )
 
 const EXAMPLE = `
@@ -25,15 +25,16 @@ func checkGOOS(goos string) bool {
 
 // Architecture Validator
 func checkGOARCH(goarch string) bool {
-	return goarch == "386" || goarch == "amd64"
+	return goarch == "386" || goarch == "amd64" || goarch == "arm"
 }
 
+// Parse forge input
 func parseForgeInput(input string) (string, string) {
 
 	words := strings.Split(input, " ")
 
 	// Case 1: No args (generate for current build environment)
-	if (words == nil || len(words) == 1) {
+	if words == nil || len(words) == 1 {
 		fmt.Printf("%s%sNo GOOS / GOARCH specified, generating implant for current build environment: \n%s%s%s, %s\n", utils.INFO, utils.RESET, utils.GOOD, utils.RESET, runtime.GOOS, runtime.GOARCH)
 		return runtime.GOOS, runtime.GOARCH
 	}
@@ -57,8 +58,9 @@ func parseForgeInput(input string) (string, string) {
 	return goos, goarch
 }
 
+// Build implant for specified GOOS and GOARCH
 func getBuildCommand(goos string, goarch string) *exec.Cmd {
-	cmd := exec.Command("env", "GOOS=" + goos, "GOARCH=" + goarch, "go", "build", "-o", utils.GetOutputPath("implant"), "godeep/implant")
+	cmd := exec.Command("env", "GOOS="+goos, "GOARCH="+goarch, "go", "build", "-o", utils.GetImplantOutputPath(goos+"-"+goarch), "godeep/implant")
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	return cmd
@@ -66,7 +68,7 @@ func getBuildCommand(goos string, goarch string) *exec.Cmd {
 
 func HandleGenerate(input string) {
 	goos, goarch := parseForgeInput(input)
-	
+
 	if goos != "" && goarch != "" {
 		cmd := getBuildCommand(goos, goarch)
 		err := cmd.Run()
