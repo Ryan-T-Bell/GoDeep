@@ -13,6 +13,7 @@ func StartKnockListener() {
 	listenAddr := ":8080" // Replace with the port you want to listen on
 
 	ln, err := net.Listen("tcp", listenAddr)
+
 	if err != nil {
 		fmt.Println("Error listening:", err)
 		return
@@ -35,8 +36,7 @@ func StartKnockListener() {
 		if isPortKnockSequenceValid(knockSequence, port) {
 			fmt.Printf("Valid port knock sequence received from %s:%d\n", ip, port)
 
-			// Perform the desired action or open the appropriate port
-			// ...
+			fmt.Println("Port Knock Worked!")
 
 			// Reset the knock sequence
 			knockSequence = []int{8000, 9000, 7000}

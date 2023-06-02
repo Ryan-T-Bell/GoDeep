@@ -7,8 +7,9 @@ cli is a package to kick off GO-DEEP functions.
 import (
 	"bufio"
 	"fmt"
-	"godeep/server/utils"
 	"godeep/server/generate"
+	"godeep/server/trigger"
+	"godeep/server/utils"
 	"os"
 	"strings"
 )
@@ -35,7 +36,7 @@ func readInput() string {
 func handleExit() {
 	fmt.Printf("%s [?]%s Are you sure you want to exit? (y/n) > ", utils.ColorGreen, utils.RESET)
 	input := readInput()
-	if (input == "y" || input == "yes") {
+	if input == "y" || input == "yes" {
 		os.Exit(0)
 	}
 }
@@ -75,12 +76,10 @@ func RunCLI() {
 			generate.HandleGenerate(input)
 		case "ls", "list":
 			handleList()
+		case "t", "trigger":
+			trigger.HandleTrigger(input)
 		default:
 			handleInvalidCommand()
 		}
 	}
 }
-
-
-
-
