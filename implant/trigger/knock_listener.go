@@ -36,8 +36,6 @@ func StartKnockListener() {
 		if isPortKnockSequenceValid(knockSequence, port) {
 			fmt.Printf("Valid port knock sequence received from %s:%d\n", ip, port)
 
-			fmt.Println("Port Knock Worked!")
-
 			// Reset the knock sequence
 			knockSequence = []int{8000, 9000, 7000}
 		} else {

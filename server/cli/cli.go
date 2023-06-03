@@ -28,7 +28,7 @@ func readInput() string {
 	reader := bufio.NewReader(os.Stdin)
 	input, err := reader.ReadString('\n')
 
-	utils.PrintError(err)
+	utils.PrintError("CLI Read input error", err)
 	return strings.TrimSuffix(input, "\n")
 }
 
