@@ -19,8 +19,9 @@ const HELP = `
 Go-DEEP Main Help
 -----------------------------------------------------
 [e] (exit): Exit Go-DEEP command line interface.
-[g] (generate): Generate an agent (beacon/trigger/RAT).
+[g] (generate): Generate an agent.
 [ls] (list): List all agents.
+[t] (trigger): Trigger an agent.
 `
 
 // Reads input from the command line.
